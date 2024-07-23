@@ -1,0 +1,65 @@
+<dependencies>
+    <dependency>
+        <groupId>org.apache.pdfbox</groupId>
+        <artifactId>pdfbox</artifactId>
+        <version>2.0.27</version>
+    </dependency>
+    <dependency>
+        <groupId>org.apache.pdfbox</groupId>
+        <artifactId>preflight</artifactId>
+        <version>2.0.27</version>
+    </dependency>
+</dependencies>
+
+
+
+import org.apache.pdfbox.preflight.Format;
+import org.apache.pdfbox.preflight.PreflightDocument;
+import org.apache.pdfbox.preflight.ValidationResult;
+import org.apache.pdfbox.preflight.exception.SyntaxValidationException;
+import org.apache.pdfbox.preflight.parser.PreflightParser;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.List;
+
+public class PdfAValidator {
+
+    public static String validatePdfA(String filePath) {
+        File pdfFile = new File(filePath);
+        ValidationResult result;
+
+        try {
+            PreflightParser parser = new PreflightParser(pdfFile);
+            parser.parse();
+
+            PreflightDocument document = parser.getPreflightDocument();
+            document.validate();
+            result = document.getResult();
+            document.close();
+
+        } catch (SyntaxValidationException e) {
+            return "Il documento non è un PDF valido: " + e.getMessage();
+        } catch (IOException e) {
+            return "Errore durante la lettura del file: " + e.getMessage();
+        }
+
+        if (result.isValid()) {
+            Format format = result.getPDFAFormat();
+            return String.format("Il documento è conforme a PDF/A-%s%s", 
+                                 format.getPart(), format.getConformance());
+        } else {
+            StringBuilder errorMessage = new StringBuilder("Il documento non è conforme a PDF/A. Errori riscontrati:\n");
+            List<ValidationResult.ValidationError> errors = result.getErrorsList();
+            for (ValidationResult.ValidationError error : errors) {
+                errorMessage.append("- ").append(error.getDetails()).append("\n");
+            }
+            return errorMessage.toString();
+        }
+    }
+
+    public static void main(String[] args) {
+        String filePath = "percorso/del/tuo/file.pdf";
+        System.out.println(validatePdfA(filePath));
+    }
+}
