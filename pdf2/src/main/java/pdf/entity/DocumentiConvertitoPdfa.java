@@ -22,7 +22,9 @@ import jakarta.persistence.TemporalType;
 public class DocumentiConvertitoPdfa implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-
+	
+	
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY) // Opzionale per auto-increment
 	private int id;

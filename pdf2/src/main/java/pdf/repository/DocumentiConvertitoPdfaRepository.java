@@ -12,4 +12,6 @@ import pdf.entity.DocumentiConvertitoPdfa;
 public interface DocumentiConvertitoPdfaRepository extends CrudRepository<DocumentiConvertitoPdfa, Integer> {
 
     // Si possono aggiungere query personalizzate se necessario
+	
+	// DocumentiConvertitoPdfa saveDocumentoConvertitoPdfa(DocumentiConvertitoPdfa documentoConvertitoPdfa);
 }

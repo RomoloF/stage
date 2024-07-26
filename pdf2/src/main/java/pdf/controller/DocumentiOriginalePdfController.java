@@ -35,7 +35,6 @@ public class DocumentiOriginalePdfController {
         this.documentiOriginalePdfService = documentiOriginalePdfService;
     }
 
-
 //    @GetMapping
 //    public ResponseEntity<List<DocumentiOriginalePdf>> getAllDocumentiOriginaliPdf() {
 //        List<DocumentiOriginalePdf> documentiOriginaliPdf = (List<DocumentiOriginalePdf>) documentiOriginalePdfService.findAll();
