@@ -27,7 +27,9 @@ public class DocumentiOriginalePdf implements Serializable {
 	private int id;
 
 	@Lob
-	@Column(name="contenuto_pdf")
+	//@Blob
+	//@Column(name="contenuto_pdf")
+	@Column(name="contenuto_pdf", columnDefinition="LONGBLOB")
 	private byte[] contenutoPdf;
 
 	@Temporal(TemporalType.TIMESTAMP)

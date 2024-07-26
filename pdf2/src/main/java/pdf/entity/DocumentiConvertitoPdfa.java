@@ -3,8 +3,6 @@ package pdf.entity;
 import java.io.Serializable;
 import java.util.Date;
 
-
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -22,7 +20,7 @@ import jakarta.persistence.TemporalType;
 @Table(name="documenti_convertito_pdfa")
 @NamedQuery(name="DocumentiConvertitoPdfa.findAll", query="SELECT d FROM DocumentiConvertitoPdfa d")
 public class DocumentiConvertitoPdfa implements Serializable {
-	
+
 	private static final long serialVersionUID = 1L;
 
 	@Id

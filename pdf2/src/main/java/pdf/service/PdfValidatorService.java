@@ -52,10 +52,22 @@ public class PdfValidatorService {
         if (result.isValid()) {
             return "Il file è un file PDF/A valido";
         } else {
-            StringBuilder errorMessage = new StringBuilder("Il file non è valido, errore(i) :\n");
-            for (ValidationError error : result.getErrorsList()) {
-                errorMessage.append(error.getErrorCode()).append(" : ").append(error.getDetails()).append("\n");
-            }
+//            StringBuilder errorMessage = new StringBuilder("Il file non è valido, errore(i) :\n \n \n");
+//            for (ValidationError error : result.getErrorsList()) {
+//                errorMessage.append("\n");
+//                errorMessage.append("Codice errore: ").append(error.getErrorCode()).append("\n");
+//                errorMessage.append("Dettagli: ").append(error.getDetails()).append("\n");
+//            }
+        	 String errorMessage = "Il file non è valido, errore(i) :\n \n \n";
+        	    for (ValidationError error : result.getErrorsList()) {
+        	    	System.out.println();
+        	        errorMessage += "\n";
+        	        System.out.println("Codice errore:   "+error.getErrorCode()+"\n");
+        	        errorMessage += "Codice errore: " + error.getErrorCode() + "\n";
+        	        System.out.println("Dettagli:    "+error.getDetails()+"\n");
+        	        errorMessage += "Dettagli: " + error.getDetails() + "\n";
+        	    }
+
             return errorMessage.toString();
         }
     }

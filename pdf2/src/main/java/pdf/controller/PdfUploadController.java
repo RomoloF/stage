@@ -3,6 +3,7 @@ package pdf.controller;
 import java.io.File;
 import java.io.IOException;
 
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -13,7 +14,7 @@ import pdf.service.PdfConversionService;
 
 
 
-@RestController
+@Controller
 @RequestMapping("/api/pdf")
 public class PdfUploadController {
 
@@ -26,13 +27,15 @@ public class PdfUploadController {
 
     @PostMapping("/caricaPdf")
     public String handleFileUpload(@RequestParam("file") MultipartFile file) {
+    	System.out.println("File caricato ed è >>>> "+file);
+    	
         if (file.isEmpty()) {
             return "File vuoto, per favore carica un file PDF.";
         }
 
         try {
             // Percorso di destinazione nel filesystem
-            String destinazionePath = "/home/romolofiorenza/git/pdf/pdf/src/main/resources/pdfconvertiti/" + file.getOriginalFilename();
+            String destinazionePath = "/home/romolofiorenza/git/pdf2/pdf2/src/main/resources/pdfconvertiti/" + file.getOriginalFilename();
             File destinazioneFile = new File(destinazionePath);
 
             // Salva il file nel filesystem
@@ -44,7 +47,14 @@ public class PdfUploadController {
             // Esegui la conversione
             pdfConversionService.convertToPdfA(destinazionePath, outputFilePath);
 
-            return "Conversione completata! Il file convertito è: " + outputFilePath;
+           // return "Conversione completata! Il file convertito è: " + outputFilePath;
+            
+            return "vistaSuccessoSalvataggio";
+            		
+            		
+            
+            
+            
         } catch (IOException e) {
             e.printStackTrace();
             return "Errore durante il caricamento o la conversione del file: " + e.getMessage();
