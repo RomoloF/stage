@@ -1,0 +1,76 @@
+
+<!--  <!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Lista Documenti Convertiti</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f5f5f5;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="mt-5">Lista Documenti Convertiti</h1>
+
+		  
+        <div class="row">
+            <div class="col-12">
+                <div th:each="documento : ${documentiConvertiti}">
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <h5 class="card-title" th:text="${documento.nomeFile}">Nome File</h5>
+                            <p class="card-text" th:text="${documento.percorsoFile}">Percorso File</p>
+                            <p class="card-text" th:text="${documento.percorsoFileConvertito}">Percorso File Convertito</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+			
+			
+			
+        <div class="text-center">
+            <a class="btn btn-primary" href="/">Torna alla Home</a>
+        </div>
+    </div>
+</body>
+</html>-->
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Documenti PDF</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container py-5" style="background-color: #f8f9fa;">
+    
+         <button class="btn btn-primary mt-3" onclick="window.location.href='/'">Torna alla Home</button>
+        
+        <h1 class="mb-3">Elenco Documenti PDF convertiti</h1>
+
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            <div class="col" th:each="documento : ${documentiConvertiti}">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title" th:text="${documento.nomeFile}"></h5>
+                        <p class="card-text">
+                            <strong>ID:</strong> <span th:text="${documento.id}"></span><br>
+                            <strong>Data della conversione:</strong> <span th:text="${#dates.format(documento.dataConvertito, 'dd/MM/yyyy HH:mm')}"></span><br>
+                            <strong>Dimensione del File PDF :</strong> <span th:text="${#numbers.formatInteger(documento.dimensioneFile, 0)}"></span> KB
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <button class="btn btn-primary mt-3" onclick="window.location.href='/'">Torna alla Home</button>
+        
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

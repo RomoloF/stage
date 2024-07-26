@@ -1,6 +1,7 @@
 package pdf.entity;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.Date;
 
 import jakarta.persistence.Column;
@@ -84,6 +85,13 @@ public class DocumentiConvertitoPdfa implements Serializable {
 
 	public void setNomeFile(String nomeFile) {
 		this.nomeFile = nomeFile;
+	}
+
+	@Override
+	public String toString() {
+		return "DocumentiConvertitoPdfa [id=" + id + ", contenutoPdf=" + Arrays.toString(contenutoPdf)
+				+ ", dataConvertito=" + dataConvertito + ", dimensioneFile=" + dimensioneFile + ", nomeFile=" + nomeFile
+				+ "]";
 	}
 
 }

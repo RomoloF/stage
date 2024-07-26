@@ -7,10 +7,35 @@
 </head>
 <body  style="background-color: lightblue;">
 
- <!-- Add this button element -->
+ <!-- Add this button element 
     <div class="container mt-5">
         <button type="button" class="btn btn-primary" onclick="window.location.href='/documenti-originali-pdf/documenti-pdf'">Vedere la lista dei PDF originali presenti nel DB</button>
+    </div>-->
+    
+    
+ <!-- Add these button elements -->
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-3">
+                <button type="button" class="btn btn-primary" onclick="window.location.href='/documenti-originali-pdf/documenti-pdf'">Vedere  PDF originali .</button>
+            </div>
+            <div class="col-md-3">
+                <button type="button" class="btn btn-secondary" onclick="window.location.href='/api/documenti-convertiti-pdfa/listaConvertiti'">Visualizza PDF convertiti .</button>
+            </div>
+            <div class="col-md-3">
+                <button type="button" class="btn btn-success" onclick="window.location.href='/documenti-originali-pdf/documenti-pdf'">Esplorare PDF originali nel DB</button>
+            </div>
+            <div class="col-md-3">
+                <button type="button" class="btn btn-danger" onclick="window.location.href='/documenti-originali-pdf/documenti-pdf'">Gestire PDF originali nel DB</button>
+            </div>
+        </div>
     </div>
+    
+    <!-- Rest of the code... -->
+
+</body>
+</html>
+    
     
     <div class="container mt-5">
         <div class="card">
@@ -24,6 +49,7 @@
                         <input type="file" class="form-control" id="file1" name="file" required>
                     </div>
                     <button type="submit" class="btn btn-primary">Carica</button>
+                    
                 </form>
             </div>
         </div>
