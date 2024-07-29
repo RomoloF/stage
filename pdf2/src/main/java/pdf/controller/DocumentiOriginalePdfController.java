@@ -35,12 +35,6 @@ public class DocumentiOriginalePdfController {
         this.documentiOriginalePdfService = documentiOriginalePdfService;
     }
 
-//    @GetMapping
-//    public ResponseEntity<List<DocumentiOriginalePdf>> getAllDocumentiOriginaliPdf() {
-//        List<DocumentiOriginalePdf> documentiOriginaliPdf = (List<DocumentiOriginalePdf>) documentiOriginalePdfService.findAll();
-//        return new ResponseEntity<>(documentiOriginaliPdf, HttpStatus.OK);
-//    }
-
     @GetMapping("/documenti-pdf")
     //@ResponseBody
     public String listDocumentiPdf(Model model) {
@@ -56,59 +50,8 @@ public class DocumentiOriginalePdfController {
         return documentiOriginalePdfOptional.map(documentiOriginalePdf -> new ResponseEntity<>(documentiOriginalePdf, HttpStatus.OK))
                                             .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
-// *****************************************************
 
-// @PostMapping
-//    public ResponseEntity<DocumentiOriginalePdf> createDocumentiOriginaliPdf(@RequestBody DocumentiOriginalePdf documentiOriginalePdf) {
-//        documentiOriginalePdf = documentiOriginalePdfService.save(documentiOriginalePdf);
-//        return new ResponseEntity<>(documentiOriginalePdf, HttpStatus.CREATED);
-//    }
-//
-
-
-//    @PostMapping
-//    public ResponseEntity<DocumentiOriginalePdf> createDocumentiOriginalePdf(@RequestParam("file") MultipartFile file,
-//        @RequestParam("nomeDocumento") String nomeDocumento) throws IOException {
-//        DocumentiOriginalePdf documentiOriginalePdf = new DocumentiOriginalePdf();
-//     // documentiOriginalePdf.setNomeDocumento(nomeDocumento);
-//     // Salva il documento nel database
-//       documentiOriginalePdf = documentiOriginalePdfService.save(documentiOriginalePdf);
-//	return new ResponseEntity<>(documentiOriginalePdf, HttpStatus.CREATED);
-//
-//    }
-
-    //************************************************************************
-    /**
-     * Gestisce il caricamento del documento PDF.
-     *
-     * @param nomeFile il nome del documento
-     * @param file il file PDF da caricare
-     * @return il nome della vista da restituire
-     */
-
-//    //Questi due metodi funzionano ma non reindirizzano alla vista
-//    @PostMapping
-//    public String caricaDocumento(@RequestParam("nomeDocumento") String nomeFile,
-//                                  @RequestParam("file") MultipartFile file) {
-//        try {
-//            documentiOriginalePdfService.salvaDocumento(nomeFile, file);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//            // gestire l'errore (es. ritornare una pagina di errore)
-//        }
-//        return "redirect:/documenti-originali-pdf/successo"; // reindirizzare alla vista di successo
-//    }
-//
-//    @GetMapping("/successo")
-//    public String mostraPaginaDiSuccesso() {
-//        return "vistaSuccessoSalvataggio";
-//    }
-//
-
-
-
-    //************************************************************************
-    //
+   
     @PostMapping ("/salva-documento")
     public String caricaDocumento(@RequestParam("nomeDocumento") String nomeFile,
                                   @RequestParam("file") MultipartFile file,
@@ -119,66 +62,13 @@ public class DocumentiOriginalePdfController {
             String contentType = file.getContentType();
             if (!contentType.startsWith("application/pdf")) {
                 redirectAttributes.addFlashAttribute("errore", "Il file caricato non è un PDF.");
-                return "<!DOCTYPE html>\n"
-                		+ "<html lang=\"it\">\n"
-                		+ "<head>\n"
-                		+ "    <meta charset=\"UTF-8\">\n"
-                		+ "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n"
-                		+ "    <title>Errore caricamento file</title>\n"
-                		+ "    <link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css\">\n"
-                		+ "</head>\n"
-                		+ "<body>\n"
-                		+ "    <div class=\"container mt-5\">\n"
-                		+ "        <div class=\"card text-center\">\n"
-                		+ "            <div class=\"card-body\">\n"
-                		+ "                <h5 class=\"card-title\">Errore nel caricamento del file</h5>\n"
-                		+ "                <p class=\"card-text\">Il file caricato non è un file PDF. Assicurati di caricare un file con estensione .pdf.</p>\n"
-                		+ "                <a href=\"/\" class=\"btn btn-primary\">Torna alla Home</a>\n"
-                		+ "            </div>\n"
-                		+ "        </div>\n"
-                		+ "    </div>\n"
-                		+ "\n"
-                		+ "    <script src=\"https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js\"></script>\n"
-                		+ "</body>\n"
-                		+ "</html>\n"
-                		+ "";
+                return "errore";
             }
 
         	// Salva il documento (assumendo che documentiOriginalePdfService.salvaDocumento gestisca i PDF)
             documentiOriginalePdfService.salvaDocumento(nomeFile, file);
             //redirectAttributes.addFlashAttribute("successo", "Documento caricato con successo!");
-            return "<!DOCTYPE html>\n"
-            		+ "<html lang=\"en\">\n"
-            		+ "<head>\n"
-            		+ "    <meta charset=\"UTF-8\">\n"
-            		+ "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n"
-            		+ "    <title>Salvataggio Completato</title>\n"
-            		+ "    <!-- Link to Bootstrap CSS -->\n"
-            		+ "    <link href=\"https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css\" rel=\"stylesheet\">\n"
-            		+ "</head>\n"
-            		+ "<body>\n"
-            		+ "\n"
-            		+ "<div class=\"container mt-5\">\n"
-            		+ "    <div class=\"card\">\n"
-            		+ "        <div class=\"card-header\">\n"
-            		+ "            Salvataggio Completato\n"
-            		+ "        </div>\n"
-            		+ "        <div class=\"card-body\">\n"
-            		+ "            <div class=\"alert alert-success\" role=\"alert\">\n"
-            		+ "                Il documento è stato salvato con successo!\n"
-            		+ "            </div>\n"
-            		+ "            <a href=\"/index\" class=\"btn btn-primary\">Torna alla pagina principale</a>\n"
-            		+ "        </div>\n"
-            		+ "    </div>\n"
-            		+ "</div>\n"
-            		+ "\n"
-            		+ "<!-- Link to Bootstrap JS and dependencies -->\n"
-            		+ "<script src=\"https://code.jquery.com/jquery-3.5.1.slim.min.js\"></script>\n"
-            		+ "<script src=\"https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js\"></script>\n"
-            		+ "<script src=\"https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js\"></script>\n"
-            		+ "</body>\n"
-            		+ "</html>\n"
-            		+ "";
+            return "vistaSuccessoSalvataggio";
 
         } catch (IOException e) {
             redirectAttributes.addFlashAttribute("errore", "Errore durante il caricamento del documento: " + e.getMessage());
@@ -196,54 +86,12 @@ public class DocumentiOriginalePdfController {
         return "vistaErroreSalvataggio";
     }
 
-
-//    @GetMapping("/successo")
-//    public String mostraPaginaDiSuccesso(Model model) {
-//        String messaggioSuccesso = (String) model.getAttribute("successo");
-//        model.addAttribute("messaggio", messaggioSuccesso);
-//        return "vistaSuccessoSalvataggio";
-//    }
-//
-//    @GetMapping("/errore")
-//    public String mostraPaginaDiErrore(Model model) {
-//        String messaggioErrore = (String) model.getAttribute("errore");
-//        model.addAttribute("messaggio", messaggioErrore);
-//        return "vistaErroreSalvataggio";
-//    }
-
-
-
-
-//    @PostMapping
-//    public ResponseEntity<DocumentiOriginalePdf> createDocumentiOriginalePdf(@RequestParam("file") MultipartFile file,
-//        @RequestParam("nomeDocumento") String nomeDocumento) throws IOException {
-//        // ... (codice esistente per salvare le altre informazioni del documento)
-//
-//        // Salva il file nel file system
-//        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
-//        Path path = Paths.get(uploadDirectory + fileName);
-//        file.transferTo(path);
-//
-//        // Imposta il percorso del file nel documento
-//        documentiOriginalePdf.setPercorsoFile(fileName);
-//
-//        // Salva il documento nel database
-//        documentiOriginalePdf = documentiOriginalePdfService.save(documentiOriginalePdf);
-//
-//        return new ResponseEntity<>(documentiOriginalePdf, HttpStatus.CREATED);
-//    }
-    //**************************************************************************
-
     @PutMapping("/{id}")
     public ResponseEntity<DocumentiOriginalePdf> updateDocumentiOriginaliPdf(@PathVariable int id, @RequestBody DocumentiOriginalePdf documentiOriginalePdf) {
         documentiOriginalePdf.setId(id);
         documentiOriginalePdf = documentiOriginalePdfService.save(documentiOriginalePdf);
         return new ResponseEntity<>(documentiOriginalePdf, HttpStatus.OK);
     }
-
-
-
-
 
 
     @DeleteMapping("/{id}")

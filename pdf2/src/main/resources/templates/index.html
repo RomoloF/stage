@@ -40,10 +40,10 @@
     <div class="container mt-5">
         <div class="card">
             <div class="card-header">
-                <h1>Carica un file PDF per convertirlo in PDF/A</h1>
+                <h1>Carica un file PDF per convertirlo in PDF/A e salvarlo nel sistema e nel DB .</h1>
             </div>
             <div class="card-body">
-                <form th:action="@{/api/pdf/caricaPdf}" method="post" enctype="multipart/form-data">
+                <form th:action="@{/api/documenti-convertiti-pdfa/convertito-salvato-db}" method="post" enctype="multipart/form-data">
                     <div class="mb-3">
                         <label for="file" class="form-label">Seleziona PDF</label>
                         <input type="file" class="form-control" id="file1" name="file" required>
@@ -66,7 +66,7 @@
         <h1>Carica il  File PDF per VALIDARLO</h1>
       </div>
       <div class="card-body">
-        <form method="POST" enctype="multipart/form-data" action="/pdf2/validate">
+        <form method="POST" enctype="multipart/form-data" action="/pdf/validate2">
           <div class="mb-3">
             <label for="file" class="form-label">Seleziona PDF</label>
             <input type="file" class="form-control" id="file2" name="file" required accept=".pdf" >

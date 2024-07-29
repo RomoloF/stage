@@ -50,7 +50,7 @@
     
          <button class="btn btn-primary mt-3" onclick="window.location.href='/'">Torna alla Home</button>
         
-        <h1 class="mb-3">Elenco Documenti PDF convertiti</h1>
+        <h1 class="mb-3">Elenco Documenti PDF convertiti che sitrovano nel db .</h1>
 
         <div class="row row-cols-1 row-cols-md-3 g-4">
             <div class="col" th:each="documento : ${documentiConvertiti}">
@@ -60,8 +60,14 @@
                         <p class="card-text">
                             <strong>ID:</strong> <span th:text="${documento.id}"></span><br>
                             <strong>Data della conversione:</strong> <span th:text="${#dates.format(documento.dataConvertito, 'dd/MM/yyyy HH:mm')}"></span><br>
-                            <strong>Dimensione del File PDF :</strong> <span th:text="${#numbers.formatInteger(documento.dimensioneFile, 0)}"></span> KB
+                            <strong>Dimensione del File PDF :</strong> <span th:text="${#numbers.formatInteger(documento.dimensioneFile, 0)}"></span> KB  
+                            <strong>Il file è valido :</strong> <span th:text="${documento.validato}"></span>                           
                         </p>
+                         <!-- Pulsante per verificare la validità del file -->
+                        <form th:action="@{/pdf2/validate}" method="post">
+                            <input type="hidden" name="nomeFile" th:value="${documento.nomeFile}">
+                            <button type="submit" class="btn btn-success">Verifica Validità</button>
+                        </form>
                     </div>
                 </div>
             </div>

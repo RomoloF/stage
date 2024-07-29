@@ -31,7 +31,8 @@ public class DocumentiConvertitoPdfa implements Serializable {
 	private int id;
 
 	@Lob
-	@Column(name="contenuto_pdf")
+	//@Column(name="contenuto_pdf")
+	@Column(name="contenuto_pdf", columnDefinition="LONGBLOB")
 	private byte[] contenutoPdf;
 
 	@Temporal(TemporalType.TIMESTAMP)
@@ -43,6 +44,12 @@ public class DocumentiConvertitoPdfa implements Serializable {
 
 	@Column(name="nome_file")
 	private String nomeFile;
+	
+	/**
+	 * Campo che indica se il documento è stato validato.
+	 */
+	@Column(name="validato")
+	private Boolean validato;// Usare Boolean anziché boolean
 
 	public DocumentiConvertitoPdfa() {
 	}
@@ -86,12 +93,40 @@ public class DocumentiConvertitoPdfa implements Serializable {
 	public void setNomeFile(String nomeFile) {
 		this.nomeFile = nomeFile;
 	}
+	
+	
+	/**
+     * Restituisce se il documento è stato validato o meno.
+     * @return true se il documento è valido, false altrimenti.
+     */
+	public Boolean isValidato() {
+        return this.validato;
+    }
+	
+	public Boolean getValidato() {
+		return validato;
+	}
+
+	public void setValidato(Boolean validato) {
+		this.validato = validato;
+	}
+
+	/**
+	 * Imposta il valore del campo validato.
+	 * 
+	 * @param validato true se il documento è stato validato, false altrimenti.
+	 */
+    public void setValidato(boolean validato) {
+        this.validato = validato;
+    }
 
 	@Override
 	public String toString() {
 		return "DocumentiConvertitoPdfa [id=" + id + ", contenutoPdf=" + Arrays.toString(contenutoPdf)
 				+ ", dataConvertito=" + dataConvertito + ", dimensioneFile=" + dimensioneFile + ", nomeFile=" + nomeFile
-				+ "]";
+				+ ", validato=" + validato +"]";
 	}
+
+	
 
 }

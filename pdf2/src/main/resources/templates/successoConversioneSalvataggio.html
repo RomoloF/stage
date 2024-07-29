@@ -1,6 +1,4 @@
-Ecco un esempio di come potresti ricreare la vista "successConversione.html" usando Thymeleaf con le card di Bootstrap e aggiungere un bottone che porta alla pagina iniziale. In questo esempio, si presuppone che Thymeleaf sia già configurato nel progetto.
 
-```html
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -19,10 +17,12 @@ Ecco un esempio di come potresti ricreare la vista "successConversione.html" usa
                         <p class="card-text">La conversione del documento è stata eseguita con successo!</p>
                         <p class="card-text">Dettagli del documento convertito:</p>
                         <ul>
-                            <li>ID: <span th:text="${documentoConvertito.id}"></span></li>
-                            <li>Nome del file: <span th:text="${documentoConvertito.nomeFile}"></span></li>
-                            <li>Data di conversione: <span th:text="${#dates.format(documentoConvertito.dataConversione, 'dd/MM/yyyy')}"></span></li>
+                          
+                            <li>ID: <span th:text="${documento.id}"></span></li>
+                            <li>Nome del file: <span th:text="${documento.nomeFile}"></span></li>
+                            <li>Data di conversione: <span th:text="${#dates.format(documento.dataConvertito, 'dd/MM/yyyy')}"></span></li>
                             <!-- Aggiungere altri dettagli se necessario -->
+                           
                         </ul>
                     </div>
                     <div class="card-footer">
