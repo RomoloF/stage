@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Encrypt Text</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <form th:action="@{/cryptoSalvoDB/encrypt}" method="post" class="mt-4" id="encryptForm">
+    
+    
+        </form>
+
+    <div id="result" class="alert alert-success" role="alert" style="display: none;">
+        Testo crittografato: <span id="encryptedText"></span>
+    </div>
+    <div id="error" class="alert alert-danger" role="alert" style="display: none;">
+        Si è verificato un errore durante la crittografia.
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            $('#encryptForm').submit(function(event) {
+                event.preventDefault();
+
+                $('#result, #error').hide(); // Nascondi i messaggi iniziali
+
+                $.ajax({
+                    url: '/cryptoSalvoDB/encrypt',
+                    type: 'POST',
+                    data: $(this).serialize(),
+                    success: function(response) {
+                        $('#encryptedText').text(response.encryptedText);
+                        $('#result').show();
+                    },
+                    error: function(error) {
+                        $('#error').show();
+                        console.error('Errore durante la crittografia:', error);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

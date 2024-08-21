@@ -11,9 +11,15 @@ public class Response {
     private String secretKey;
     private String jsonOriginale;
     private String JsonCriptato;
-    	
+    private String clientID;
     
-    public String getSecretKey() {
+    public String getClientID() {
+		return clientID;
+	}
+	public void setClientID(String clientID) {
+		this.clientID = clientID;
+	}
+	public String getSecretKey() {
 		return secretKey;
 	}
 	public void setSecretKey(String key) {

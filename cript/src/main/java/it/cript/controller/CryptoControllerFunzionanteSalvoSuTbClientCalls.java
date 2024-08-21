@@ -3,6 +3,7 @@ package it.cript.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import it.cript.model.Response;
@@ -95,7 +96,9 @@ public class CryptoControllerFunzionanteSalvoSuTbClientCalls {
     
     // Endpoint per criptare un testo richiede un ClientID
     @PostMapping("/encrypt")
-    public Response encrypt(@RequestParam String clientID, @RequestParam String plainText) {
+    
+    //Sostituisco Response con String per far visualizzare sulla stessa vista del form.
+    public Response encrypt(@RequestParam String clientID, @RequestParam String plainText, Model model) {
     	//String keyString=clientID;
     	
         Response response = new Response();
@@ -106,6 +109,7 @@ public class CryptoControllerFunzionanteSalvoSuTbClientCalls {
             TbClients client = tbClientsService.findById(clientID);
             if (client == null) {
             	response.setMessage("Client con ID ="+clientID+"  non trovato ...");
+            	//Sostituisco Response con String per far visualizzare sulla stessa vista del form.
             	return response;
             }	            
         	String keyString=client.getClientSecret();
@@ -116,6 +120,8 @@ public class CryptoControllerFunzionanteSalvoSuTbClientCalls {
             cipher.init(Cipher.ENCRYPT_MODE, key);
             byte[] encryptedBytes = cipher.doFinal(plainText.getBytes());
             String encryptedText = Base64.getEncoder().encodeToString(encryptedBytes);
+            model.addAttribute("encryptedText", encryptedText);
+            
             
          // Creazione di un nuovo record TbClientCalls e lo riempio
             TbClientCalls tbClientCalls = new TbClientCalls();
@@ -124,19 +130,18 @@ public class CryptoControllerFunzionanteSalvoSuTbClientCalls {
             tbClientCalls.setDataChiamata(new java.util.Date()); // Usa la data corrente
             tbClientCalls.setMetadataRichiesta(plainText);
             tbClientCalls.setMetadataRisposta(encryptedText);
-            tbClientCalls.setStato("Salvato sulla tabella tbclientCalls"); 
-            
+            tbClientCalls.setStato("Salvato sulla tabella tbclientCalls");            
             tbClientCalls.setNomeClient(client.getNome());
             System.out.println(client.getNome());
             tbClientCalls.setSecretKey(client.getClientSecret());
             System.out.println(client.getClientSecret());
-            
-            
-            // Salva il record TbClientCalls nel database
+         // Salva il record TbClientCalls nel database
             tbClientCallsService.saveCall(tbClientCalls);
 
-            
-
+           
+            response.setSecretKey(keyString);
+            response.setJsonOriginale(plainText);
+            response.setJsonCriptato(encryptedText);
             response.setData(encryptedText);
             response.setStatus(200);
             response.setMessage("Testo criptato con successo.");
@@ -145,7 +150,12 @@ public class CryptoControllerFunzionanteSalvoSuTbClientCalls {
             response.setMessage("Errore durante la criptazione del testo.");
             response.setInternalMessage(e.getMessage());
         }
-        return response;
+        
+        
+        
+        
+      //Sostituisco Response con String per far visualizzare sulla stessa vista del form.
+        return    response;
     }
 
     // Endpoint per decriptare un testo
@@ -246,49 +256,49 @@ public class CryptoControllerFunzionanteSalvoSuTbClientCalls {
         return uuid.toString();
     }
 
-	public class Response {
-        private int status;
-        private String message;
-        private String internalMessage;
-        private Object data;
-
-        // Getters e Setters
-        public int getStatus() {
-            return status;
-        }
-
-        public void setSecretKey(String keyString) {
-			// TODO Auto-generated method stub
-			
-		}
-
-		public void setStatus(int status) {
-            this.status = status;
-        }
-
-        public String getMessage() {
-            return message;
-        }
-
-        public void setMessage(String message) {
-            this.message = message;
-        }
-
-        public String getInternalMessage() {
-            return internalMessage;
-        }
-
-        public void setInternalMessage(String internalMessage) {
-            this.internalMessage = internalMessage;
-        }
-
-        public Object getData() {
-            return data;
-        }
-
-        public void setData(Object data) {
-            this.data = data;
-        }
-    }
+//	public class Response {
+//        private int status;
+//        private String message;
+//        private String internalMessage;
+//        private Object data;
+//
+//        // Getters e Setters
+//        public int getStatus() {
+//            return status;
+//        }
+//
+//        public void setSecretKey(String keyString) {
+//			// TODO Auto-generated method stub
+//			
+//		}
+//
+//		public void setStatus(int status) {
+//            this.status = status;
+//        }
+//
+//        public String getMessage() {
+//            return message;
+//        }
+//
+//        public void setMessage(String message) {
+//            this.message = message;
+//        }
+//
+//        public String getInternalMessage() {
+//            return internalMessage;
+//        }
+//
+//        public void setInternalMessage(String internalMessage) {
+//            this.internalMessage = internalMessage;
+//        }
+//
+//        public Object getData() {
+//            return data;
+//        }
+//
+//        public void setData(Object data) {
+//            this.data = data;
+//        }
+//    }
 
 }

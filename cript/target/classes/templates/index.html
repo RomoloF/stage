@@ -8,15 +8,18 @@
 </head>
 <body>
     <!-- Barra di navigazione -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="#">OperaOperazioni di Criptografia</a>
+    <div style="background-color: #333; color: white;">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark rounded mx-auto">
+        <a class="navbar-brand" href="#">Operazioni di Criptografia</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
+            <span class="navbar-toggler-icon"></span>   
+
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link" th:href="@{/encrypt}">Encrypt Text</a>
+                    <a class="nav-link" th:href="@{/encrypt}">Encrypt   
+ Text</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" th:href="@{/decrypt}">Decrypt Text</a>
@@ -27,22 +30,22 @@
             </ul>
         </div>
     </nav>
-
+	</div>
     <!-- Contenuto principale -->
-    <div class="container mt-5">
-        <div class="jumbotron">
-            <h1 class="display-4">Benvenuto alle Operazioni di Criptografia</h1>
+    <div class="container mt-5" style="background-color: blue;border: 10px solid black;">
+        <div class="jumbotron"  style="background-color: red;border: 2px solid black;margin-top: 20px; margin-bottom: 20px;">
+            <h1 class="display-3">Benvenuto alle Operazioni di Criptografia</h1>
             <p class="lead">Usa la barra di navigazione per criptare un testo, decriptare un testo o generare un nuovo Client ID e Secret.</p>
-            <hr class="my-4">
+            <hr class="my-2">
             <p>Questa applicazione offre semplici operazioni crittografiche utilizzando la crittografia AES.</p>
             <a class="btn btn-primary btn-lg" th:href="@{/encrypt}" role="button">Inizia</a>
         </div>
     </div>
     
-    <div class="container mt-5">
-	    <div class="jumbotron">
-		    <h1 class="display-4"> Benvenuto nell'applicazione TbClients e TbClientsCall</h1>
-		    <hr class="my-4">
+    <div class="container mt-5" style="background-color: blue;border: 10px solid black;">
+	    <div class="jumbotron"  style="background-color: green;border: 2px solid black;margin-top: 20px; margin-bottom: 20px; ">
+		    <h1 class="display-3"> Benvenuto nell'applicazione TbClients e TbClientsCall</h1>
+		    <hr class="my-2">
 		    <p>Questa è una semplice applicazione web che ti permette di gestire le entità TbClients.</p>
 		    <a href="/api/clients">Vista di tutti Clients</a>
 		    <a href="/api/calls">Vista di ClientsCalls</a>
