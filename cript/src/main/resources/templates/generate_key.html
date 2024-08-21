@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Generate Client ID and Secret</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+    <h1 class="mt-5">Generate Client ID and Secret</h1>
+    <form th:action="@{/cryptoSalvoDB/generaClientIdAndSecretNuovoSalvaDB}" method="get" class="mt-4">
+        <div class="form-group">
+            <label for="nomeCliente">Client Name</label>
+            <input type="text" id="nomeCliente" name="nomeCliente" class="form-control" placeholder="Enter Client Name" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Generate</button>
+        <button type="submit" class="btn btn-primary">INDEX</button>
+    </form>
+    
+     <div class="container mt-5">
+        
+        <!-- Modulo per reindirizzare alla index -->
+        <form action="/" method="get">
+            <button type="submit" class="btn btn-primary">Torna alla Index</button>
+        </form>
+    </div>
+    <!--  
+    <div class="mt-4">
+        <h3>Generated Client ID and Secret:</h3>
+        <p><strong>Client ID:</strong> <span th:text="${response.data.clientId}"></span></p>
+        <p><strong>Client Secret:</strong> <span th:text="${response.data.clientSecret}"></span></p>
+    </div>
+    -->
+</div>
+</body>
+</html>

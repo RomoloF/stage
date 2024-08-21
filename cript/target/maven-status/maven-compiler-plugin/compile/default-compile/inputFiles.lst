@@ -1,0 +1,10 @@
+/home/romolofiorenza/progettoStage/cript/src/main/java/it/cript/CriptApplication.java
+/home/romolofiorenza/progettoStage/cript/src/main/java/it/cript/MysqlDataSource.java
+/home/romolofiorenza/progettoStage/cript/src/main/java/it/cript/OpenAPIConfig.java
+/home/romolofiorenza/progettoStage/cript/src/main/java/it/cript/SpringJdbcConfig.java
+/home/romolofiorenza/progettoStage/cript/src/main/java/it/cript/controller/ExampleController.java
+/home/romolofiorenza/progettoStage/cript/src/main/java/it/cript/controller/TbClientsController.java
+/home/romolofiorenza/progettoStage/cript/src/main/java/it/cript/model/Response.java
+/home/romolofiorenza/progettoStage/cript/src/main/java/it/cript/model/TbClientCalls.java
+/home/romolofiorenza/progettoStage/cript/src/main/java/it/cript/model/TbClients.java
+/home/romolofiorenza/progettoStage/cript/src/main/java/it/cript/repository/TbClientsRepository.java

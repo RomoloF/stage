@@ -27,7 +27,7 @@ public class TbClientsController {
 
     private final TbClientsService tbClientsService;
 
-    @Autowired
+   
     public TbClientsController(TbClientsService tbClientsService) {
         this.tbClientsService = tbClientsService;
     }
@@ -67,15 +67,12 @@ public class TbClientsController {
         @ApiResponse(responseCode = "500", description = "Errore interno del server", 
             content = @Content)
     })
-    // Endpoint per salvare un client
-    @PostMapping
+    // Endpoint per salvare un client vuole un body 
+    @PostMapping("/createClient")
     public ResponseEntity<Void> createClient(@RequestBody TbClients client) {
         tbClientsService.saveClient(client);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
-
-    
-    
 
 //    @PostMapping
 //    public ResponseEntity<TbClients> save(@RequestBody TbClients client) {
@@ -98,7 +95,7 @@ public class TbClientsController {
         @ApiResponse(responseCode = "500", description = "Errore interno del server", 
             content = @Content)
     })
-    @DeleteMapping("/{clientID}")
+    @DeleteMapping("/delete/{clientID}")
     public ResponseEntity<Void> deleteById(@PathVariable String clientID) {
         tbClientsService.deleteById(clientID);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);

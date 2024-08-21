@@ -26,6 +26,8 @@ public class TbClientCallsRepository {
             call.setMetadataRichiesta(rs.getString("metadataRichiesta"));
             call.setMetadataRisposta(rs.getString("metadataRisposta"));
             call.setStato(rs.getString("Stato"));
+            call.setNomeClient(rs.getString("nomeClient"));
+            call.setNomeClient(rs.getString("secretKey"));
             return call;
         }
     };
@@ -39,10 +41,16 @@ public class TbClientCallsRepository {
         String sql = "SELECT * FROM tbClientCalls WHERE id = ?";
         return jdbcTemplate.queryForObject(sql, new Object[]{id}, tbClientCallsRowMapper);
     }
-
+    
+    public TbClientCalls findByNomeClient(int id) {
+        String sql = "SELECT * FROM tbClientCalls WHERE nomeClient = ?";
+        return jdbcTemplate.queryForObject(sql, new Object[]{id}, tbClientCallsRowMapper);
+    }
+    
+    
     public int save(TbClientCalls call) {
-        String sql = "INSERT INTO tbClientCalls (clientID, dataChiamata, metadataRichiesta, metadataRisposta, Stato) VALUES (?, ?, ?, ?, ?)";
-        return jdbcTemplate.update(sql, call.getClientID(), call.getDataChiamata(), call.getMetadataRichiesta(), call.getMetadataRisposta(), call.getStato());
+        String sql = "INSERT INTO tbClientCalls (clientID, dataChiamata, metadataRichiesta, metadataRisposta, Stato, secretKey, nomeClient ) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        return jdbcTemplate.update(sql, call.getClientID(), call.getDataChiamata(), call.getMetadataRichiesta(), call.getMetadataRisposta(), call.getStato(), call.getSecretKey(), call.getNomeClient());
     }
 
     public int update(TbClientCalls call) {

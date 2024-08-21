@@ -19,6 +19,8 @@ public class TbClientCalls {
     private String metadataRichiesta;
     private String metadataRisposta;
     private String Stato;
+    private String secretKey;
+    private String nomeClient;
 
     /**
      * Costruttore vuoto
@@ -38,7 +40,20 @@ public class TbClientCalls {
         this.metadataRisposta = metadataRisposta;
         this.Stato = stato;
     }
-    /**
+    
+    public TbClientCalls(Integer id, String clientID, Date dataChiamata, String metadataRichiesta,
+			String metadataRisposta, String stato, String secretKey, String nomeClient) {
+		super();
+		this.id = id;
+		this.clientID = clientID;
+		this.dataChiamata = dataChiamata;
+		this.metadataRichiesta = metadataRichiesta;
+		this.metadataRisposta = metadataRisposta;
+		Stato = stato;
+		this.secretKey = secretKey;
+		this.nomeClient = nomeClient;
+	}
+	/**
      * Metodi get e set
      */
     
@@ -78,8 +93,21 @@ public class TbClientCalls {
 	public void setStato(String stato) {
 		Stato = stato;
 	}
+	
 
-    /**
+    public String getSecretKey() {
+		return secretKey;
+	}
+	public void setSecretKey(String secretKey) {
+		this.secretKey = secretKey;
+	}
+	public String getNomeClient() {
+		return nomeClient;
+	}
+	public void setNomeClient(String nomeClient) {
+		this.nomeClient = nomeClient;
+	}
+	/**
      * Metodo toString
      */
 	@Override

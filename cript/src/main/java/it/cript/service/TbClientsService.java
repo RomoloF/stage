@@ -13,8 +13,7 @@ import java.util.List;
 public class TbClientsService {
 	 @Autowired
     private final TbClientsRepository tbClientsRepository;
-    
-    @Autowired
+        
     public TbClientsService(TbClientsRepository tbClientsRepository) {
         this.tbClientsRepository = tbClientsRepository;
     }
@@ -33,11 +32,6 @@ public class TbClientsService {
         tbClientsRepository.save(client);
     }
 
-
-//    public TbClients update(TbClients client) {
-//        return tbClientsRepository.update(client);
-//    }
-    		
     // Metodo per eliminare un client per ID
     public int deleteById(String clientID) {
         return tbClientsRepository.deleteById(clientID);
