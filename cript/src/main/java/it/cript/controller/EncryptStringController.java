@@ -120,7 +120,7 @@ public class EncryptStringController {
 			System.out.println("sono entrato in decrypt provengo dal post");
 			System.out.println("Stampo secretKey =  "+secretKeyImput);
 			System.out.println("Stampo EncryptedText =  "+decryptForm.getEncryptedText());
-			
+			System.out.println();
 			String decryptedText = decrypt(decryptForm.getEncryptedText());
 			System.out.println("Stampo decryptedText =  "+decryptedText);
 			
