@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Crypto Operations</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<style>
+			.rounded-nav-bar {
+           		 border-radius: 50px; 
+        }
+</style>
+<body>
+    <!-- Definizione del frammento "navbar" -->
+    <div th:fragment="navbar">
+    
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark rounded mx-auto ">
+            <a class="navbar-brand" href="/">Operazioni di Criptografia</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/encrypt}">Encrypt_Text</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/decrypt}">Decrypt_Text</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/generateKey}">Generate Client ID & Secret</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/crypto/encrypt}">Encrypt_Tymeleaf</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/crypto/dencrypt}">Dencrypt_Tymeleaf</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+    <!-- Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

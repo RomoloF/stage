@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Decrypt Text</title>
+</head>
+<body>
+    <h1>Decrypt Text</h1>
+    
+    <!-- Form per l'inserimento del testo crittografato da decrittografare -->
+    <form th:action="@{/crypto/decrypt}" method="post" th:object="${decryptForm}">
+        <div>
+            <label for="encryptedText">Encrypted Text:</label>
+            <textarea id="encryptedText" th:field="*{encryptedText}" required></textarea>
+        </div>
+        <div>
+            <label for="keyString">Key (if required):</label>
+            <input type="text" id="keyString" th:field="*{keyString}"/>
+        </div>
+        <div>
+            <button type="submit">Decrypt</button>
+        </div>
+    </form>
+
+    <!-- Visualizzazione del testo decrittografato se presente -->
+    <div th:if="${decryptedText}">
+        <h2>Decrypted Text:</h2>
+        <p th:text="${decryptedText}"></p>
+    </div>
+
+    <!-- Visualizzazione dell'errore se presente -->
+    <div th:if="${error}">
+        <h2>Error:</h2>
+        <p th:text="${error}"></p>
+    </div>
+</body>
+</html>

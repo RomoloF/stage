@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Encrypt Text</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evSX7tx0xZ8uD1f48VTzX1xqUU2xk+Qzpus/bA9r1nXVfTqaY1+SXHKzwd4iAlzC+2TqbQ" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    
+    <style>
+    /* Stile per aggiungere sfondo e bordi alle card */
+        .card-principale {
+        	max-width: 600px; /* Limita la larghezza della card */
+            margin: 10 auto; /* Centra la card orizzontalmente */
+            background-color: #ff0000; /* Colore di sfondo grigio chiaro */
+            border: 2px solid #007bff; /* Bordo blu */
+            border-radius: 20px; /* Bordi arrotondati */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Ombra leggera */
+            min-height: 100vh; /* Imposta l'altezza minima per il contenitore */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        .card-results {
+        	max-width: 600px; /* Limita la larghezza della card */
+            margin: 10 auto; /* Centra la card orizzontalmente */
+            background-color: #bfff5e; /* Colore di sfondo grigio chiaro */
+            border: 2px solid #74daff; /* Bordo blu */
+            border-radius: 20px; /* Bordi arrotondati */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Ombra leggera */
+            min-height: 100vh; /* Imposta l'altezza minima per il contenitore */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+         /* Arrotonda i campi di input e il bottone */
+        .rounded-input {
+            border-radius: 20px; /* Arrotondamento maggiore per input e textarea */
+        }
+		.rounded-nav-bar {
+            border-radius: 50px; 
+        }
+        .rounded-button {
+            border-radius: 50px; /* Bordi completamente arrotondati per il bottone */
+        }
+        /* Centra la card all'interno del contenitore */
+        .card-container {
+           /* display: flex;*/
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+		<!-- Inclusione del frammento navbar 
+    <div th:replace="fragments/navbar :: navbar"></div>
+    	-->
+     <!-- Inclusione del frammento navbar -->
+    <div th:replace="~{fragments/navbar :: navbar}"></div>
+    
+    <div class="container mt-5 rounded-input" style="background-color: #ffff7f;">
+        <!-- Card principale -->
+        <div class="card card-principale card-container">
+            <div class="card-header text-center">
+                <h1>Encrypt Text</h1>
+            </div>
+            <div class="card-body">
+                <form th:action="@{/crypto/encrypt}" method="post" th:object="${encryptForm}">
+                    <div class="mb-3">
+                        <label for="clientID" class="form-label">Client ID:</label>
+                        <input type="text" class="form-control rounded-input" id="clientID" th:field="*{clientID}" required/>
+                    </div>
+                    <hr>
+                    <div class="mb-3">
+                        <label for="plainText" class="form-label">Plain Text:</label>
+                        <textarea class="form-control rounded-input" id="plainText" th:field="*{plainText}" rows="5" required></textarea>
+                    </div>
+                    <hr>
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary rounded-button">Encrypt</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+		<hr>
+        <!-- Card per i risultati -->
+        <div class="card mt-4 card-results card-container" th:if="${encryptedText}">
+            <div class="card-header text-center">
+                <h3>Results</h3>
+            </div>
+            <div class="card-body">
+                <div class="alert alert-success" role="alert">
+                    <strong>Encrypted Text:</strong> <span th:text="${encryptedText}"></span>
+                </div>
+                <div th:if="${clientID}">
+                    <h4>Client ID:</h4>
+                    <p th:text="${clientID}"></p>
+                </div>
+                <div th:if="${secretKey}">
+                    <h4>Secret Key:</h4>
+                    <p th:text="${secretKey}"></p>
+                </div>
+                <div th:if="${plainText}">
+                    <h4>Plain Text:</h4>
+                    <p th:text="${plainText}"></p>
+                </div>
+            </div>
+        </div>
+        <hr>
+
+        <!-- Card per gli errori -->
+        <div class="card mt-4" th:if="${error}">
+            <div class="card-body">
+                <div class="alert alert-danger" role="alert">
+                    <strong>Error:</strong> <span th:text="${error}"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS (opzionale) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6u4sWZ1b5ztF+6oahN2m/ew3WlK09p4IvG1twJ8erGizgt+AZ7q" crossorigin="anonymous"></script>
+	<!-- Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>

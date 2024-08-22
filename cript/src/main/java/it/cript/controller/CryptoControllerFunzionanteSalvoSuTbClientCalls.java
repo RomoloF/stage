@@ -157,7 +157,12 @@ public class CryptoControllerFunzionanteSalvoSuTbClientCalls {
       //Sostituisco Response con String per far visualizzare sulla stessa vista del form.
         return    response;
     }
-
+//*******************************************
+    
+    
+    
+    
+//*******************************************   
     // Endpoint per decriptare un testo
     @PostMapping("/decrypt")
     public Response decrypt(@RequestParam String encryptedText, @RequestParam String keyString) {

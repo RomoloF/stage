@@ -7,30 +7,10 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
-    <!-- Barra di navigazione -->
-    <div style="background-color: #333; color: white;">
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark rounded mx-auto">
-        <a class="navbar-brand" href="#">Operazioni di Criptografia</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>   
-
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link" th:href="@{/encrypt}">Encrypt   
- Text</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" th:href="@{/decrypt}">Decrypt Text</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" th:href="@{/generateKey}">Generate Client ID & Secret</a>
-                </li>
-            </ul>
-        </div>
-    </nav>
-	</div>
+	<!-- Inclusione del frammento navbar -->
+    <div th:replace="~{fragments/navbar :: navbar}"></div>
+    
+    
     <!-- Contenuto principale -->
     <div class="container mt-5" style="background-color: blue;border: 10px solid black;">
         <div class="jumbotron"  style="background-color: red;border: 2px solid black;margin-top: 20px; margin-bottom: 20px;">
