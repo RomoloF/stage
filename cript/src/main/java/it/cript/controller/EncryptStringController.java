@@ -20,6 +20,8 @@ import java.util.Base64;
 public class EncryptStringController {
 
 	private static final String ALGORITHM = "AES";
+	private static final String TRANSFORMATION = "AES/ECB/PKCS5Padding";
+	private static final int KEY_SIZE = 256;
 	private SecretKey secretKey;
 	private String secretKeyStrig;
 	
@@ -105,23 +107,36 @@ public class EncryptStringController {
 	@GetMapping("/decrypt")
 	public String decryptForm(Model model) {
 		model.addAttribute("decryptForm", new DecryptForm());
-		return "decrypt";
+		System.out.println("Sono entrato in decript adesso devo visualizzare decryptTymeleaf.html");
+		return "decryptTymeleaf";
 	}
 
 	@PostMapping("/decrypt")
 	public String decrypt(@ModelAttribute DecryptForm decryptForm, Model model) {
 		try {
 			// Esegui la decrittografia del testo crittografato
+			
+			String secretKeyImput=decryptForm.getKeyString();
+			System.out.println("sono entrato in decrypt provengo dal post");
+			System.out.println("Stampo secretKey =  "+secretKeyImput);
+			System.out.println("Stampo EncryptedText =  "+decryptForm.getEncryptedText());
+			
 			String decryptedText = decrypt(decryptForm.getEncryptedText());
-
+			System.out.println("Stampo decryptedText =  "+decryptedText);
+			
+			System.out.println("Text decriptedText =  "+decryptedText);
 			// Aggiungi il testo decrittografato al modello per la visualizzazione
 			model.addAttribute("decryptedText", decryptedText);
+			model.addAttribute("encryptedText", decryptForm.getEncryptedText());
+			//model.addAttribute("clientID", decryptForm.getClientID());
 
 			// Reindirizza alla vista con il testo decrittografato
-			return "redirect:/crypto/decrypted?decryptedText=" + decryptedText;
+			//return "redirect:/crypto/decrypted?decryptedText=" + decryptedText;
+			return "redirect:/crypto/decrypted";
+			
 		} catch (Exception e) {
 			model.addAttribute("error", "Errore durante la decrittografia: " + e.getMessage());
-			return "decrypt";
+			return "decryptTymeleaf";
 		}
 	}
 
@@ -147,12 +162,41 @@ public class EncryptStringController {
 	 * @throws Exception In caso di errore durante la decrittografia
 	 */
 	private String decrypt(String encryptedText) throws Exception {
-		Cipher cipher = Cipher.getInstance(ALGORITHM);
+		
+		String encodedData = "CorruptedOrInvalidBase64Data"; // Dati Base64 non validi
+	    try {
+	        String decodedData = decodeBase64(encryptedText);
+	        
+	        System.out.println("Decoded Data: " + decodedData);
+	    } catch (IllegalArgumentException e) {
+	        System.err.println("Error decoding Base64 data: " + e.getMessage());
+	    }
+		
+		Cipher cipher = Cipher.getInstance(TRANSFORMATION);
 		cipher.init(Cipher.DECRYPT_MODE, secretKey);
-		byte[] decryptedBytes = cipher.doFinal(Base64.getDecoder().decode(encryptedText));
+		byte[] decodedBytes = Base64.getDecoder().decode(encryptedText);
+		byte[] decryptedBytes = cipher.doFinal(Base64.getDecoder().decode(decodedBytes));
+		
 		return new String(decryptedBytes);
 	}
 
+	
+	private String decodeBase64(String encodedData) {
+		try {
+			// Rimuovi gli spazi bianchi e i caratteri di ritorno a capo
+			encodedData = encodedData.replaceAll("\\s", "");
+			
+            // Decodifica i dati Base64
+            byte[] decodedBytes = Base64.getDecoder().decode(encodedData);
+            // Converte i byte decodificati in una stringa
+            return new String(decodedBytes);
+	}catch (IllegalArgumentException e) {
+        // Se i dati non sono validi Base64, lancia un'eccezione
+        throw new IllegalArgumentException("Errore nella decodifica dei dati Base64: " + e.getMessage(), e);
+    }
+	}
+	
+	
 	public static class EncryptForm {
 		private String clientID;
 		private String plainText;

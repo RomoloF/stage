@@ -3,12 +3,13 @@ package it.cript.service;
 
 
 import it.cript.model.TbClients;
-import it.cript.repository.TbClientsRepository;
+//import it.cript.repository.TbClientsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-
+import it.cript.repository.TbClientsRepository;
 @Service
 public class TbClientsService {
 	 @Autowired
