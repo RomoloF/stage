@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import it.cript.model.Response;
+
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
@@ -103,43 +105,94 @@ public class EncryptStringController {
 			return "encrypt";
 		}
 	}
-
+//********************************************************************************************************************************
+//********************************************************************************************************************************	
+	// Decrittazione  GET
+	
 	@GetMapping("/decrypt")
 	public String decryptForm(Model model) {
 		model.addAttribute("decryptForm", new DecryptForm());
 		System.out.println("Sono entrato in decript adesso devo visualizzare decryptTymeleaf.html");
 		return "decryptTymeleaf";
 	}
-
-	@PostMapping("/decrypt")
-	public String decrypt(@ModelAttribute DecryptForm decryptForm, Model model) {
-		try {
-			// Esegui la decrittografia del testo crittografato
+//	// Decriptazione POST
+//	@PostMapping("/decrypt")//Proviene dal form di decryptTymeleaf.html
+//	public String decrypt(@ModelAttribute DecryptForm decryptForm, Model model) {
+//		try {
+//			// Esegui la decrittografia del testo crittografato
+//			
+//			String secretKeyImput=decryptForm.getKeyString();
+//			System.out.println("sono entrato in decrypt provengo dal post");
+//			System.out.println("Stampo secretKey =  "+secretKeyImput);
+//			System.out.println("Stampo EncryptedText =  "+decryptForm.getEncryptedText());
+//			System.out.println();
+//			String decryptedText = decrypt(decryptForm.getEncryptedText());
+//			System.out.println("Stampo decryptedText =  "+decryptedText);
+//			
+//			System.out.println("Text decriptedText =  "+decryptedText);
+//			// Aggiungi il testo decrittografato al modello per la visualizzazione
+//			model.addAttribute("decryptedText", decryptedText);
+//			
+//			model.addAttribute("encryptedText", decryptForm.getEncryptedText());
+//			//model.addAttribute("clientID", decryptForm.getClientID());
+//
+//			// Reindirizza alla vista con il testo decrittografato
+//			//return "redirect:/crypto/decrypted?decryptedText=" + decryptedText;
+//			return "redirect:/crypto/decrypted";
+//			
+//		} catch (Exception e) {
+//			model.addAttribute("error", "Errore durante la decrittografia: " + e.getMessage());
+//			return "decryptTymeleaf";
+//		}
+//	}
+	 // Endpoint per decriptare un testo
+    @PostMapping(value="/decrypt", produces = "application/json")
+    public String decrypt(@ModelAttribute DecryptForm decryptForm, Model model) {
+        Response response = new Response();
+        try {
+        	System.out.println("Stringa Base64 ricevuta per la decrittazione: "+(decryptForm.getEncryptedText()));
+            SecretKey key = getKeyFromString(decryptForm.getKeyString());
+            // Aggiungi un controllo per la lunghezza della stringa Base64
+           // System.out.println("Lunghezza della stringa Base64: " + encryptedText.length());
+            // private static final String ALGORITHM = "AES";
+            Cipher cipher = Cipher.getInstance(ALGORITHM);
+            // 
+            cipher.init(Cipher.DECRYPT_MODE, key);
+            // Decodifica la stringa Base64 e decripta il testo
+            byte[] decodedBytes = Base64.getDecoder().decode(decryptForm.getEncryptedText());// Qui può verificarsi l'errore
+            
+            System.out.println("Decodifica completata.");
+            System.out.println("Questo è il json originale ");
+            
+            byte[] decryptedBytes = cipher.doFinal(decodedBytes);
+            String decryptedText = new String(decryptedBytes);
+			System.out.println(decryptedText);
 			
-			String secretKeyImput=decryptForm.getKeyString();
-			System.out.println("sono entrato in decrypt provengo dal post");
-			System.out.println("Stampo secretKey =  "+secretKeyImput);
-			System.out.println("Stampo EncryptedText =  "+decryptForm.getEncryptedText());
-			System.out.println();
-			String decryptedText = decrypt(decryptForm.getEncryptedText());
-			System.out.println("Stampo decryptedText =  "+decryptedText);
-			
-			System.out.println("Text decriptedText =  "+decryptedText);
-			// Aggiungi il testo decrittografato al modello per la visualizzazione
-			model.addAttribute("decryptedText", decryptedText);
-			model.addAttribute("encryptedText", decryptForm.getEncryptedText());
-			//model.addAttribute("clientID", decryptForm.getClientID());
-
-			// Reindirizza alla vista con il testo decrittografato
-			//return "redirect:/crypto/decrypted?decryptedText=" + decryptedText;
-			return "redirect:/crypto/decrypted";
-			
-		} catch (Exception e) {
-			model.addAttribute("error", "Errore durante la decrittografia: " + e.getMessage());
-			return "decryptTymeleaf";
-		}
-	}
-
+        } catch (Exception e) {
+            response.setStatus(500);
+            response.setMessage("Errore durante la decriptazione del testo.");
+            response.setInternalMessage(e.getMessage());
+        }
+        return "redirect:/crypto/decrypt" ;
+        
+        
+        
+        
+        
+    }
+	
+	
+//********************************************************************************************************
+	
+	
+	
+ // Metodo per convertire una stringa Base64 in una chiave AES
+    private SecretKey getKeyFromString(String keyString) throws Exception {
+        byte[] decodedKey = Base64.getDecoder().decode(keyString);
+     // private static final String ALGORITHM = "AES";
+        return new SecretKeySpec(decodedKey, 0, decodedKey.length, ALGORITHM);
+    }
+	//********************************************************************************************************	
 	/**
 	 * Metodo per crittografare il testo in chiaro.
 	 *
@@ -148,12 +201,16 @@ public class EncryptStringController {
 	 * @throws Exception In caso di errore durante la crittografia
 	 */
 	private String encrypt(String plainText) throws Exception {
+		// private static final String ALGORITHM = "AES";
 		Cipher cipher = Cipher.getInstance(ALGORITHM);
 		cipher.init(Cipher.ENCRYPT_MODE, secretKey);
 		byte[] encryptedBytes = cipher.doFinal(plainText.getBytes());
 		return Base64.getEncoder().encodeToString(encryptedBytes);
 	}
-
+//************************************************************************************************
+	
+	
+	//Commentato
 	/**
 	 * Metodo per decrittografare il testo crittografato.
 	 *
@@ -171,31 +228,54 @@ public class EncryptStringController {
 	    } catch (IllegalArgumentException e) {
 	        System.err.println("Error decoding Base64 data: " + e.getMessage());
 	    }
+	    
+		//private static final String ALGORITHM = "AES";
+		Cipher cipher = Cipher.getInstance(ALGORITHM);
 		
-		Cipher cipher = Cipher.getInstance(TRANSFORMATION);
 		cipher.init(Cipher.DECRYPT_MODE, secretKey);
+		
 		byte[] decodedBytes = Base64.getDecoder().decode(encryptedText);
+		
+		
 		byte[] decryptedBytes = cipher.doFinal(Base64.getDecoder().decode(decodedBytes));
+		
 		
 		return new String(decryptedBytes);
 	}
-
-	
+///**********************************************************************************************
 	private String decodeBase64(String encodedData) {
 		try {
 			// Rimuovi gli spazi bianchi e i caratteri di ritorno a capo
-			encodedData = encodedData.replaceAll("\\s", "");
+			//encodedData = encodedData.replaceAll("\\s", "");
 			
             // Decodifica i dati Base64
             byte[] decodedBytes = Base64.getDecoder().decode(encodedData);
             // Converte i byte decodificati in una stringa
             return new String(decodedBytes);
+            
 	}catch (IllegalArgumentException e) {
         // Se i dati non sono validi Base64, lancia un'eccezione
         throw new IllegalArgumentException("Errore nella decodifica dei dati Base64: " + e.getMessage(), e);
     }
 	}
 	
+//	private String decrypt(String encryptedText, String keyString) throws Exception {
+//	    // Decodifica la chiave fornita dall'utente
+//	    byte[] decodedKey = Base64.getDecoder().decode(keyString);
+//	    
+//	    // Crea una chiave segreta da utilizzare per la decrittografia
+//	    SecretKey secretKey = new SecretKeySpec(decodedKey, ALGORITHM);
+//	    
+//	    Cipher cipher = Cipher.getInstance(ALGORITHM);
+//	    cipher.init(Cipher.DECRYPT_MODE, secretKey);
+//	    
+//	    byte[] decodedBytes = Base64.getDecoder().decode(encryptedText);
+//	    byte[] decryptedBytes = cipher.doFinal(decodedBytes);
+//	    
+//	    return new String(decryptedBytes);
+//	}
+//**************************************************************************************************************	
+	// Classe EncryptForm
 	
 	public static class EncryptForm {
 		private String clientID;
@@ -218,7 +298,9 @@ public class EncryptStringController {
 			this.plainText = plainText;
 		}
 	}
-
+//**************************************************************************************************************
+	// Classe DecryptForm
+	
 	public static class DecryptForm {
 		private String encryptedText;
 		private String keyString; // In un'applicazione reale, si potrebbe passare la chiave come stringa base64 o
@@ -241,4 +323,5 @@ public class EncryptStringController {
 			this.keyString = keyString;
 		}
 	}
+//****************************************************************************************************************	
 }

@@ -71,10 +71,13 @@ public class CryptoControllerFunzionanteSalvoSuTbClientCalls {
 		this.tbClientCallsService = tbClientCallsService;
 	}
     
-
+//*******************************************************************************************
+    // Metodi di utilità
 	// Metodo per generare una chiave AES
     private SecretKey generateKey() throws Exception {
+    	// private static final String ALGORITHM = "AES";
         KeyGenerator keyGen = KeyGenerator.getInstance(ALGORITHM);
+        // private static final int KEY_SIZE = 256;
         keyGen.init(KEY_SIZE);
         return keyGen.generateKey();
     }
@@ -82,6 +85,7 @@ public class CryptoControllerFunzionanteSalvoSuTbClientCalls {
     // Metodo per convertire una stringa Base64 in una chiave AES
     private SecretKey getKeyFromString(String keyString) throws Exception {
         byte[] decodedKey = Base64.getDecoder().decode(keyString);
+     // private static final String ALGORITHM = "AES";
         return new SecretKeySpec(decodedKey, 0, decodedKey.length, ALGORITHM);
     }
 
@@ -90,14 +94,13 @@ public class CryptoControllerFunzionanteSalvoSuTbClientCalls {
         byte[] encodedKey = key.getEncoded();
         return Base64.getEncoder().encodeToString(encodedKey);
     }
+//*****************************************************************************************    
     
     
     
-    
-    // Endpoint per criptare un testo richiede un ClientID
+    // Endpoint per criptare un testo richiede un ClientID e un plainText ...
     @PostMapping("/encrypt")
     
-    //Sostituisco Response con String per far visualizzare sulla stessa vista del form.
     public Response encrypt(@RequestParam String clientID, @RequestParam String plainText, Model model) {
     	//String keyString=clientID;
     	
@@ -111,21 +114,27 @@ public class CryptoControllerFunzionanteSalvoSuTbClientCalls {
             	response.setMessage("Client con ID ="+clientID+"  non trovato ...");
             	//Sostituisco Response con String per far visualizzare sulla stessa vista del form.
             	return response;
-            }	            
+            }
+            // Leggo la chiave AES dal database
         	String keyString=client.getClientSecret();
-            SecretKey key = getKeyFromString(keyString);
-            
-            
+        	
+            // Creo una chiave AES da stringa Base64
+        	SecretKey key = getKeyFromString(keyString);
+        	// Creo un cipher per la crittografia
             Cipher cipher = Cipher.getInstance(ALGORITHM);
+            
+            // Inizializzo il cipher per la crittografia, usando la chiave AES
             cipher.init(Cipher.ENCRYPT_MODE, key);
+            // Cripta il testo originale usando la chiave AES e converte i byte in una stringa Base64
             byte[] encryptedBytes = cipher.doFinal(plainText.getBytes());
             String encryptedText = Base64.getEncoder().encodeToString(encryptedBytes);
+            
+            // Aggiungo il testo criptato al modello
             model.addAttribute("encryptedText", encryptedText);
             
             
          // Creazione di un nuovo record TbClientCalls e lo riempio
-            TbClientCalls tbClientCalls = new TbClientCalls();
-           
+            TbClientCalls tbClientCalls = new TbClientCalls();            
             tbClientCalls.setClientID(clientID);
             tbClientCalls.setDataChiamata(new java.util.Date()); // Usa la data corrente
             tbClientCalls.setMetadataRichiesta(plainText);
@@ -137,9 +146,8 @@ public class CryptoControllerFunzionanteSalvoSuTbClientCalls {
             System.out.println(client.getClientSecret());
          // Salva il record TbClientCalls nel database
             tbClientCallsService.saveCall(tbClientCalls);
-
-           
-            response.setSecretKey(keyString);
+         // Riempio response              
+            response.setSecretKey(keyString);          
             response.setJsonOriginale(plainText);
             response.setJsonCriptato(encryptedText);
             response.setData(encryptedText);
@@ -151,20 +159,16 @@ public class CryptoControllerFunzionanteSalvoSuTbClientCalls {
             response.setInternalMessage(e.getMessage());
         }
         
-        
-        
-        
-      //Sostituisco Response con String per far visualizzare sulla stessa vista del form.
         return    response;
     }
-//*******************************************
+//*************************************************************************************************
     
     
     
     
-//*******************************************   
+//*************************************************************************************************   
     // Endpoint per decriptare un testo
-    @PostMapping("/decrypt")
+    @PostMapping(value="/decrypt", produces = "application/json")
     public Response decrypt(@RequestParam String encryptedText, @RequestParam String keyString) {
         Response response = new Response();
         try {
@@ -172,16 +176,20 @@ public class CryptoControllerFunzionanteSalvoSuTbClientCalls {
             SecretKey key = getKeyFromString(keyString);
             // Aggiungi un controllo per la lunghezza della stringa Base64
             System.out.println("Lunghezza della stringa Base64: " + encryptedText.length());
-            
+            // private static final String ALGORITHM = "AES";
             Cipher cipher = Cipher.getInstance(ALGORITHM);
+            // 
             cipher.init(Cipher.DECRYPT_MODE, key);
+            // Decodifica la stringa Base64 e decripta il testo
             byte[] decodedBytes = Base64.getDecoder().decode(encryptedText);// Qui può verificarsi l'errore
+            
             System.out.println("Decodifica completata.");
             System.out.println("Questo è il json originale ");
             
             byte[] decryptedBytes = cipher.doFinal(decodedBytes);
             String decryptedText = new String(decryptedBytes);
 			System.out.println(decryptedText);
+			
             response.setData(decryptedText);
             response.setStatus(200);
             response.setMessage("Testo decriptato con successo.");
