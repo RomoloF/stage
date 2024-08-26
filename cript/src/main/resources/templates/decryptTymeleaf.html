@@ -21,13 +21,28 @@
             <button type="submit">Decrypt</button>
         </div>
     </form>
+    <div>
+        <p th:text="'Encrypted Text: ' + ${encryptedText}"></p>
+        <p th:text="'Key String: ' + ${keyString}"></p>
+        <p th:text="'Decrypted Text: ' + ${decryptedText}"></p>
+    </div>
 
     <!-- Visualizzazione del testo decrittografato se presente -->
-    <div th:if="${decryptedText}">
+    <div th:if="${encryptedText}">
+        <h2>Ecrypted Text:</h2>
+        <p th:text="${encryptedText}"></p>
+    </div>
+    <div th:if="${keyString}">
+        <h2>KeyString:</h2>
+        <p th:text="${keyString}"></p>
+    </div>
+    
+	<div th:if="${decryptedText}">
         <h2>Decrypted Text:</h2>
         <p th:text="${decryptedText}"></p>
     </div>
-
+    
+    
     <!-- Visualizzazione dell'errore se presente -->
     <div th:if="${error}">
         <h2>Error:</h2>
